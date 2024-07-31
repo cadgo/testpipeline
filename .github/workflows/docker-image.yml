@@ -19,4 +19,4 @@ jobs:
 
     - uses: actions/checkout@v4
     - name: Save Image
-      run: docker save /tmp/docker.tar my-image-name:v1
+      run: docker save -o /tmp/docker.tar my-image-name:v1
