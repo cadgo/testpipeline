@@ -7,7 +7,9 @@ on:
     branches: [ "main" ]
 
 env:
-  env_var: ${{ vars.shiftleft }}
+  CHKP_CLOUDGUARD_ID: ${{ secrets.CHKP_CLOUDGUARD_ID }}
+  CHKP_CLOUDGUARD_SECRET: ${{ secrets.CHKP_CLOUDGUARD_SECRET }}
+  SHIFTLEFT_REGION: ${{ secrets.SHIFTLEFT_REGION }}
 
 jobs:
 
@@ -31,9 +33,9 @@ jobs:
     - uses: actions/checkout@v4
     - name: Set Variable
       run: |
-        echo "$CHKP_CLOUDGUARD_ID"
-        echo "CHKP_CLOUDGUARD_ID=$(echo $CHKP_CLOUDGUARD_ID)" >> $CHKP_CLOUDGUARD_ID
-        echo "CHKP_CLOUDGUARD_SECRET=$(echo $CHKP_CLOUDGUARD_SECRET)" >> $CHKP_CLOUDGUARD_SECRET
+        echo "${{env.CHKP_CLOUDGUARD_ID}}"
+        #echo "CHKP_CLOUDGUARD_ID=$(echo $CHKP_CLOUDGUARD_ID)" >> $CHKP_CLOUDGUARD_ID
+        #echo "CHKP_CLOUDGUARD_SECRET=$(echo $CHKP_CLOUDGUARD_SECRET)" >> $CHKP_CLOUDGUARD_SECRET
         echo "SHIFTLEFT_REGION=$(echo $SHIFTLEFT_REGION)" >> $SHIFTLEFT_REGION
     - name: Scan image
       run: /tmp/shiftleft image-scan -e 9d7c67a2-9a92-4231-b9ff-57f058101d66 -i /tmp/docker.tar
