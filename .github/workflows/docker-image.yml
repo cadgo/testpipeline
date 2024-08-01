@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  CHKP_CLOUDGUARD_ID: ${{secrets.CHKP_CLOUDGUARD_ID}}
+  CHKP_CLOUDGUARD_SECRET: ${{secrets.CHKP_CLOUDGUARD_SECRET}}
+  SHIFTLEFT_REGION: ${{secrets.SHIFTLEFT_REGION}}
+
 jobs:
 
   build:
@@ -20,3 +25,11 @@ jobs:
     - uses: actions/checkout@v4
     - name: Save Image
       run: docker save -o /tmp/docker.tar my-image-name:v1; ls /tmp/
+
+    - uses: actions/checkout@v4
+    - name: shiftleft download
+      run: cd /tmp; wget https://github.com/cadgo/testpipeline/raw/main/shiftleft; chmod +x shiftleft
+
+    - uses: actions/checkout@v4
+    - name: Scan image
+      run: /tmp/shiftleft image-scan -e 9d7c67a2-9a92-4231-b9ff-57f058101d66 -i /tmp/docker.tar
